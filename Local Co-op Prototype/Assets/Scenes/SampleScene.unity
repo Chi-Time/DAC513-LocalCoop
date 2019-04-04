@@ -178,87 +178,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!4 &322843190 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 4461583745339894, guid: b9933b2a19aaa0041b10d0862dc382e8,
-    type: 2}
-  m_PrefabInternal: {fileID: 1868881758}
---- !u!1 &659387000
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 659387001}
-  - component: {fileID: 659387002}
-  m_Layer: 0
-  m_Name: Tri-Shot Weapon
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &659387001
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 659387000}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 918180742}
-  m_Father: {fileID: 322843190}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &659387002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 659387000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 259a944fdedb1fd47a65b020cbe3e73d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _Damage: 1
-  _BulletSpeed: 20
-  _LifeTime: 5
-  _FireRate: 0.25
-  _BulletPrefab: {fileID: 1515550155868048, guid: 1a6ec45bf7c7cca46894969f14ed27f1,
-    type: 2}
-  _WeaponAnchor: {fileID: 0}
---- !u!1 &918180741
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 918180742}
-  m_Layer: 0
-  m_Name: Anchor
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &918180742
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 918180741}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 659387001}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1868881758
 Prefab:
   m_ObjectHideFlags: 0
@@ -297,19 +216,6 @@ Prefab:
     - target: {fileID: 4842563710264134, guid: b9933b2a19aaa0041b10d0862dc382e8, type: 2}
       propertyPath: m_RootOrder
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4504382069121228, guid: b9933b2a19aaa0041b10d0862dc382e8, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4504382069121228, guid: b9933b2a19aaa0041b10d0862dc382e8, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114545386554903752, guid: b9933b2a19aaa0041b10d0862dc382e8,
-        type: 2}
-      propertyPath: _BulletSpeed
-      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b9933b2a19aaa0041b10d0862dc382e8, type: 2}

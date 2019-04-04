@@ -3,32 +3,36 @@
 namespace Assets.Code.Classes.Bullets
 {
     [RequireComponent (typeof (Rigidbody), typeof (Collider))]
-    public class Bullet : MonoBehaviour
+    class ClusterBullet : MonoBehaviour
     {
         private int _Damage = 0;
         private float _Speed = 0.0f;
         private float _LifeTime = 0.0f;
         private Rigidbody _Rigidbody = null;
         private Transform _Transform = null;
+        private Bullet[] _SubBullets = null;
 
-        public void Constructor (int damage, float speed)
+        public void Constructor (int damage, float speed, Bullet[] bullets)
         {
             _Damage = damage;
             _Speed = speed;
             _LifeTime = float.MaxValue;
+            _SubBullets = bullets;
             Setup ();
         }
 
-        public void Constructor (int damage, float speed, float lifeTime)
+        public void Constructor (int damage, float speed, float lifeTime, Bullet[] bullets)
         {
             _Damage = damage;
             _Speed = speed;
             _LifeTime = lifeTime;
+            _SubBullets = bullets;
             Setup ();
         }
 
         public void Setup ()
         {
+            CancelInvoke ();
             Invoke ("Cull", _LifeTime);
             _Rigidbody.AddForce (_Transform.up * _Speed, ForceMode.Impulse);
         }
@@ -48,8 +52,19 @@ namespace Assets.Code.Classes.Bullets
             _Rigidbody.freezeRotation = true;
         }
 
+        private void Split ()
+        {
+            foreach (Bullet bullet in _SubBullets)
+            {
+                bullet.transform.position = _Transform.position;
+                bullet.gameObject.SetActive (true);
+                bullet.Setup ();
+            }
+        }
+
         private void Cull ()
         {
+            Split ();
             Destroy (this.gameObject);
         }
     }
