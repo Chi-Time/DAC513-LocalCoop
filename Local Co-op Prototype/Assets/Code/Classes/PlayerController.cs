@@ -11,12 +11,17 @@ public class PlayerController : MonoBehaviour
     [Tooltip ("What player input does this player use?")]
     [SerializeField] private PlayerTypes _PlayerType = PlayerTypes.Player1;
 
+    [SerializeField] private float _XMin = 0.0f;
+    [SerializeField] private float _XMax = 0.0f;
+    [SerializeField] private float _ZMin = 0.0f;
+    [SerializeField] private float _ZMax = 0.0f;
     private Vector3 _Velocity = Vector3.zero;
     private Rigidbody _Rigidbody = null;
 
     private void Awake ()
     {
         AssignReferences ();
+        GetScreenBounds ();
     }
 
     private void AssignReferences ()
@@ -28,6 +33,16 @@ public class PlayerController : MonoBehaviour
         _Rigidbody.isKinematic = true;
         _Rigidbody.freezeRotation = true;
         _Rigidbody.constraints = RigidbodyConstraints.FreezePositionY;
+    }
+
+    private void GetScreenBounds ()
+    {
+        var bounds = Camera.main.ScreenToWorldPoint (new Vector3 (Camera.main.pixelWidth, Camera.main.pixelHeight, 0));
+
+        _XMin = -bounds.x + transform.localScale.x;
+        _XMax = bounds.x - transform.localScale.x;
+        _ZMin = -bounds.z + transform.localScale.y;
+        _ZMax = bounds.z - transform.localScale.y;
     }
 
     private void Update ()
@@ -57,6 +72,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate ()
     {
+        ClampWithinScreen ();
         Move ();
     }
 
@@ -64,5 +80,28 @@ public class PlayerController : MonoBehaviour
     {
         var velocity = _Velocity * _Speed * Time.fixedDeltaTime;
         _Rigidbody.MovePosition (_Rigidbody.position + velocity);
+    }
+
+    private void ClampWithinScreen ()
+    {
+        if (_Rigidbody.position.x <= _XMin)
+        {
+            _Rigidbody.position = new Vector3 (_XMin, 0.0f, _Rigidbody.position.z);
+        }
+
+        if (_Rigidbody.position.x >= _XMax)
+        {
+            _Rigidbody.position = new Vector3 (_XMax, 0.0f, _Rigidbody.position.z);
+        }
+
+        if (_Rigidbody.position.z <= _ZMin)
+        {
+            _Rigidbody.position = new Vector3 (_Rigidbody.position.x, 0.0f, _ZMin);
+        }
+
+        if (_Rigidbody.position.z >= _ZMax)
+        {
+            _Rigidbody.position = new Vector3 (_Rigidbody.position.x, 0.0f, _ZMax);
+        }
     }
 }
