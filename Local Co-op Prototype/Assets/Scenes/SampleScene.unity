@@ -263,48 +263,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 809777114}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1001 &827361926
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4978410114085338, guid: b0f62f4f0903aa64793aceb90b8b72c1, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4978410114085338, guid: b0f62f4f0903aa64793aceb90b8b72c1, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4978410114085338, guid: b0f62f4f0903aa64793aceb90b8b72c1, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4978410114085338, guid: b0f62f4f0903aa64793aceb90b8b72c1, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4978410114085338, guid: b0f62f4f0903aa64793aceb90b8b72c1, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4978410114085338, guid: b0f62f4f0903aa64793aceb90b8b72c1, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4978410114085338, guid: b0f62f4f0903aa64793aceb90b8b72c1, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4978410114085338, guid: b0f62f4f0903aa64793aceb90b8b72c1, type: 2}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: b0f62f4f0903aa64793aceb90b8b72c1, type: 2}
-  m_IsPrefabParent: 0
 --- !u!4 &1332708063 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4842563710264134, guid: b9933b2a19aaa0041b10d0862dc382e8,
