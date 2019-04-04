@@ -1,9 +1,9 @@
-[Ll]ibrary/
-[Tt]emp/
-[Oo]bj/
-[Bb]uild/
-[Bb]uilds/
-Assets/AssetStoreTools*
+Local Co-op Prototype/[Ll]ibrary/
+Local Co-op Prototype/[Tt]emp/
+Local Co-op Prototype/[Oo]bj/
+Local Co-op Prototype/[Bb]uild/
+Local Co-op Prototype/[Bb]uilds/
+Local Co-op Prototype/Assets/AssetStoreTools*
 
 # Visual Studio cache directory
 .vs/
