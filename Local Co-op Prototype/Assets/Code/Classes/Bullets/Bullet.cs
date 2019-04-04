@@ -52,5 +52,10 @@ namespace Assets.Code.Classes.Bullets
         {
             Destroy (this.gameObject);
         }
+
+        private void OnBecameInvisible ()
+        {
+            Cull ();
+        }
     }
 }

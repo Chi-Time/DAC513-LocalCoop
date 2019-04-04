@@ -3,38 +3,40 @@
 namespace Assets.Code.Classes.Bullets
 {
     [RequireComponent (typeof (Rigidbody), typeof (Collider))]
-    class ClusterBullet : MonoBehaviour
+    class SpongeBullet : MonoBehaviour
     {
         private int _Damage = 0;
         private float _Speed = 0.0f;
         private float _LifeTime = 0.0f;
+        [SerializeField] private float _XMin = 0.0f;
+        [SerializeField] private float _XMax = 0.0f;
         private Rigidbody _Rigidbody = null;
         private Transform _Transform = null;
-        private Bullet[] _SubBullets = null;
 
-        public void Constructor (int damage, float speed, Bullet[] bullets)
+        public void Constructor (int damage, float speed)
         {
             _Damage = damage;
             _Speed = speed;
             _LifeTime = float.MaxValue;
-            _SubBullets = bullets;
             Setup ();
         }
 
-        public void Constructor (int damage, float speed, float lifeTime, Bullet[] bullets)
+        public void Constructor (int damage, float speed, float lifeTime)
         {
             _Damage = damage;
             _Speed = speed;
             _LifeTime = lifeTime;
-            _SubBullets = bullets;
             Setup ();
         }
 
         public void Setup ()
         {
-            CancelInvoke ();
             Invoke ("Cull", _LifeTime);
             _Rigidbody.AddForce (_Transform.up * _Speed, ForceMode.Impulse);
+
+            var bounds = Camera.main.ScreenToWorldPoint (new Vector3 (Camera.main.pixelWidth, Camera.main.pixelHeight, 0));
+            _XMin = -bounds.x + transform.localScale.x;
+            _XMax = bounds.x - transform.localScale.x;
         }
 
         private void Awake ()
@@ -52,19 +54,27 @@ namespace Assets.Code.Classes.Bullets
             _Rigidbody.freezeRotation = true;
         }
 
-        private void Split ()
+        private void FixedUpdate ()
         {
-            foreach (Bullet bullet in _SubBullets)
+            if (_Rigidbody.position.x <= _XMin)
             {
-                bullet.transform.position = _Transform.position;
-                bullet.gameObject.SetActive (true);
-                bullet.Setup ();
+                _Transform.rotation = Quaternion.Euler (_Transform.rotation.eulerAngles.x, -_Transform.rotation.eulerAngles.y, _Transform.rotation.eulerAngles.z);
+
+                _Rigidbody.velocity = Vector3.zero;
+                _Rigidbody.AddForce (_Transform.up * _Speed, ForceMode.Impulse);
+            }
+
+            if (_Rigidbody.position.x >= _XMax)
+            {
+                _Transform.rotation = Quaternion.Euler (_Transform.rotation.eulerAngles.x, -_Transform.rotation.eulerAngles.y, _Transform.rotation.eulerAngles.z);
+
+                _Rigidbody.velocity = Vector3.zero;
+                _Rigidbody.AddForce (_Transform.up * _Speed, ForceMode.Impulse);
             }
         }
 
         private void Cull ()
         {
-            Split ();
             Destroy (this.gameObject);
         }
 

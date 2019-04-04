@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
         _Rigidbody.freezeRotation = true;
         _Rigidbody.constraints = RigidbodyConstraints.FreezePositionY;
 
-        _CurrentWeapon = GetComponentInChildren<SpeedySpreadShot> ();
+        _CurrentWeapon = GetComponentInChildren<SpongeShotWeapon> ();
     }
 
     private void GetScreenBounds ()
