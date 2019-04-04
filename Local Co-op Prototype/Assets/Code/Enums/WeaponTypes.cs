@@ -1,6 +1,6 @@
 ﻿namespace Assets.Code.Enums
 {
-    enum WeaponTypes
+    public enum WeaponTypes
     {
         Default = 0,
         Fast,

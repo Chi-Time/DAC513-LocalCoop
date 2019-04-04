@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
         _Rigidbody.freezeRotation = true;
         _Rigidbody.constraints = RigidbodyConstraints.FreezePositionY;
 
-        _CurrentWeapon = GetComponentInChildren<SpongeShotWeapon> ();
+        _CurrentWeapon = GetComponentInChildren<DefaultWeapon> ();
     }
 
     private void GetScreenBounds ()
@@ -56,6 +56,9 @@ public class PlayerController : MonoBehaviour
 
     private void GetInput ()
     {
+        if (Input.GetKeyDown (KeyCode.E))
+            SwitchWeapon (WeaponTypes.PentaShot);
+
         switch (_PlayerType)
         {
             case PlayerTypes.Player1:
@@ -118,6 +121,55 @@ public class PlayerController : MonoBehaviour
         if (_Rigidbody.position.z >= _ZMax)
         {
             _Rigidbody.position = new Vector3 (_Rigidbody.position.x, 0.0f, _ZMax);
+        }
+    }
+
+    /// <summary>Switch the players current weapon to that of the given type. Disabling any currently equipped weapon in the process.</summary>
+    /// <param name="weapon">The weapon to switch to.</param>
+    public void SwitchWeapon (WeaponTypes weapon)
+    {
+        switch (weapon)
+        {
+            case WeaponTypes.Default:
+                _CurrentWeapon.Disable ();
+                _CurrentWeapon = GetComponent<DefaultWeapon> ();
+                _CurrentWeapon.Enable ();
+                break;
+            case WeaponTypes.Fast:
+                _CurrentWeapon.Disable ();
+                _CurrentWeapon = GetComponentInChildren<FastWeapon> ();
+                _CurrentWeapon.Enable ();
+                break;
+            case WeaponTypes.TriShot:
+                _CurrentWeapon.Disable ();
+                _CurrentWeapon = GetComponentInChildren<TriShot> ();
+                _CurrentWeapon.Enable ();
+                break;
+            case WeaponTypes.PentaShot:
+                _CurrentWeapon.Disable ();
+                _CurrentWeapon = GetComponentInChildren<PentaShot> ();
+                _CurrentWeapon.Enable ();
+                break;
+            case WeaponTypes.HomingShot:
+                _CurrentWeapon.Disable ();
+                _CurrentWeapon = GetComponentInChildren<DefaultWeapon> ();
+                _CurrentWeapon.Enable ();
+                break;
+            case WeaponTypes.ClusterShot:
+                _CurrentWeapon.Disable ();
+                _CurrentWeapon = GetComponentInChildren<ClusterShotWeapon> ();
+                _CurrentWeapon.Enable ();
+                break;
+            case WeaponTypes.SpeedySpreadShot:
+                _CurrentWeapon.Disable ();
+                _CurrentWeapon = GetComponentInChildren<SpeedySpreadShot> ();
+                _CurrentWeapon.Enable ();
+                break;
+            case WeaponTypes.SpongeShot:
+                _CurrentWeapon.Disable ();
+                _CurrentWeapon = GetComponentInChildren<SpongeShotWeapon> ();
+                _CurrentWeapon.Enable ();
+                break;
         }
     }
 }
