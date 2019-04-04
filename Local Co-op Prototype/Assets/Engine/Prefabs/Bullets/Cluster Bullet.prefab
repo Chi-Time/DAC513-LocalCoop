@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 135427683214649138}
   - component: {fileID: 54345071631376564}
   - component: {fileID: 114177093923796082}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cluster Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}

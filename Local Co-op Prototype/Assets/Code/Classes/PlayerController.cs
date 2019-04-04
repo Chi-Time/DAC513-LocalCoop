@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Assets.Code.Enums;
 using Assets.Code.Classes.Weapons;
+using Assets.Code.Classes.Utilities;
 
 [RequireComponent (typeof (Rigidbody), typeof (SphereCollider))]
 public class PlayerController : MonoBehaviour
@@ -57,7 +58,7 @@ public class PlayerController : MonoBehaviour
     private void GetInput ()
     {
         if (Input.GetKeyDown (KeyCode.E))
-            SwitchWeapon (WeaponTypes.PentaShot);
+            SwitchWeapon (WeaponTypes.ClusterShot);
 
         switch (_PlayerType)
         {
@@ -171,5 +172,30 @@ public class PlayerController : MonoBehaviour
                 _CurrentWeapon.Enable ();
                 break;
         }
+    }
+
+    private void OnEnable ()
+    {
+        LevelSignals.OnEntityHit += OnEntityHit;
+    }
+
+    private void OnEntityHit (int damage, GameObject entity)
+    {
+        if (entity == this.gameObject)
+        {
+            _Health -= damage;
+            if (_Health <= 0)
+                Kill ();
+        }
+    }
+
+    private void Kill ()
+    {
+        Destroy (this.gameObject);
+    }
+
+    private void OnDisable ()
+    {
+        LevelSignals.OnEntityHit -= OnEntityHit;
     }
 }

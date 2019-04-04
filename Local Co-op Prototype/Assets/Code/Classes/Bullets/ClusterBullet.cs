@@ -72,5 +72,11 @@ namespace Assets.Code.Classes.Bullets
         {
             Cull ();
         }
+
+        private void OnTriggerEnter (Collider other)
+        {
+            Cull ();
+            Utilities.LevelSignals.HitEntity (_Damage, other.gameObject);
+        }
     }
 }

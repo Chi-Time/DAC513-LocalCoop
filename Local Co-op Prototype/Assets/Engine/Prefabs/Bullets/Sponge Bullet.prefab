@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 54312728582019600}
   - component: {fileID: 65918062991668982}
   - component: {fileID: 114413033550763452}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Sponge Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,3 +124,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91af171ff5aaf9343ad18b5d5df79265, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _XMin: 0
+  _XMax: 0
