@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Assets.Code.Enums;
+using Assets.Code.Classes.Weapons;
 
 [RequireComponent (typeof (Rigidbody), typeof (SphereCollider))]
 public class PlayerController : MonoBehaviour
@@ -11,10 +12,11 @@ public class PlayerController : MonoBehaviour
     [Tooltip ("What player input does this player use?")]
     [SerializeField] private PlayerTypes _PlayerType = PlayerTypes.Player1;
 
-    [SerializeField] private float _XMin = 0.0f;
-    [SerializeField] private float _XMax = 0.0f;
-    [SerializeField] private float _ZMin = 0.0f;
-    [SerializeField] private float _ZMax = 0.0f;
+    private float _XMin = 0.0f;
+    private float _XMax = 0.0f;
+    private float _ZMin = 0.0f;
+    private float _ZMax = 0.0f;
+    private WeaponBase _CurrentWeapon = null;
     private Vector3 _Velocity = Vector3.zero;
     private Rigidbody _Rigidbody = null;
 
@@ -33,6 +35,8 @@ public class PlayerController : MonoBehaviour
         _Rigidbody.isKinematic = true;
         _Rigidbody.freezeRotation = true;
         _Rigidbody.constraints = RigidbodyConstraints.FreezePositionY;
+
+        _CurrentWeapon = GetComponentInChildren<DefaultWeapon> ();
     }
 
     private void GetScreenBounds ()
@@ -56,9 +60,11 @@ public class PlayerController : MonoBehaviour
         {
             case PlayerTypes.Player1:
                 GetMovementInput (1);
+                GetFireInput (1);
                 break;
             case PlayerTypes.Player2:
                 GetMovementInput (2);
+                GetFireInput (2);
                 break;
         }
     }
@@ -68,6 +74,16 @@ public class PlayerController : MonoBehaviour
         string horizontal = "Horizontal" + playerID;
         string vertical = "Vertical" + playerID;
         _Velocity = new Vector3 (Input.GetAxis (horizontal), 0.0f, Input.GetAxis (vertical));
+    }
+
+    private void GetFireInput (int playerID)
+    {
+        string fire = "Fire" + playerID;
+
+        if (Input.GetButton (fire) && _CurrentWeapon != null)
+        {
+            _CurrentWeapon.Fire ();
+        }
     }
 
     private void FixedUpdate ()
