@@ -3,37 +3,38 @@ using Assets.Code.Classes.Bullets;
 
 namespace Assets.Code.Classes.Enemies
 {
-    [RequireComponent (typeof (Enemy))]
-    class RailTurret : MonoBehaviour
+    [RequireComponent (typeof (Enemy), typeof (Rigidbody), typeof (Collider))]
+    class SteamRollerEnemy : MonoBehaviour
     {
+        [Tooltip ("The speed at which the enemy moves down the screen.")]
+        [SerializeField] private float _Speed = 5.0f;
         [Tooltip ("The amount of damage each bullet does.")]
         [SerializeField] private int _Damage = 2;
         [Tooltip ("How long each bullet will stay on screen for.")]
         [SerializeField] private float _LifeTime = 5;
         [Tooltip ("The speed of each bullet.")]
         [SerializeField] private float _BulletSpeed = 10f;
+        [Tooltip ("How many bullets should the turret fire?")]
+        [SerializeField] private int _ShotAmount = 5;
         [Tooltip ("The rate at which the turret will shoot bullets.")]
         [SerializeField] private float _FireRate = 0.0f;
         [Tooltip ("The bullets that the turret will fire.")]
         [SerializeField] private GameObject _BulletPrefab = null;
-        [Tooltip ("The anchor for where bullet's spawn from.")]
-        [SerializeField] private Transform _WeaponAnchor = null;
 
         private float _Timer = 0.0f;
-        private bool _IsActivated = false;
-        private bool _ShouldTrack = true;
-        private Transform _Target = null;
+        private bool _IsActivated = true;
+        private Rigidbody _Rigidbody = null;
         private Transform _Transform = null;
 
         private void Awake ()
         {
-            _Transform = GetComponent<Transform> ();
-        }
+            GetComponent<Collider> ().isTrigger = true;
 
-        private void Start ()
-        {
-            var targets = GameObject.FindObjectsOfType<PlayerController> ();
-            _Target = targets[Random.Range (0, targets.Length)].transform;
+            _Rigidbody = GetComponent<Rigidbody> ();
+            _Rigidbody.useGravity = false;
+            _Rigidbody.isKinematic = true;
+            _Rigidbody.freezeRotation = true;
+            _Transform = GetComponent<Transform> ();
         }
 
         private void Update ()
@@ -43,23 +44,13 @@ namespace Assets.Code.Classes.Enemies
                 CalculateTimer ();
 
                 if (CanFire ())
-                {
                     Shoot ();
-                }
-
-                TrackPlayer ();
             }
         }
 
         private void CalculateTimer ()
         {
             _Timer += Time.deltaTime;
-        }
-
-        private void TrackPlayer ()
-        {
-            var offset = _Transform.position - _Target.position;
-            _Transform.LookAt (_Transform.position + offset);
         }
 
         private bool CanFire ()
@@ -75,12 +66,19 @@ namespace Assets.Code.Classes.Enemies
 
         private void Shoot ()
         {
-            var bulletObj = Instantiate (_BulletPrefab, _WeaponAnchor.transform.position, _WeaponAnchor.transform.rotation);
+            float angleStep = 360 / _ShotAmount;
+            float currentAngle = 0.0f;
 
-            bulletObj.transform.rotation = Quaternion.Euler (90f, _WeaponAnchor.transform.rotation.eulerAngles.y, _WeaponAnchor.transform.rotation.eulerAngles.z);
+            for (int i = 0; i < _ShotAmount; i++)
+            {
+                var bulletObj = Instantiate (_BulletPrefab, _Transform.position, _Transform.rotation);
 
-            var bullet = bulletObj.GetComponent<Bullet> ();
-            bullet.Constructor (_Damage, _BulletSpeed, _LifeTime);
+                currentAngle += angleStep;
+                bulletObj.transform.rotation = Quaternion.Euler (90f, currentAngle, 0f);
+
+                var bullet = bulletObj.GetComponent<Bullet> ();
+                bullet.Constructor (_Damage, _BulletSpeed, _LifeTime);
+            }
         }
 
         private void OnTriggerEnter (Collider other)

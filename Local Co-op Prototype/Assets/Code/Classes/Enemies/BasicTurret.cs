@@ -20,6 +20,7 @@ namespace Assets.Code.Classes.Enemies
         [SerializeField] private GameObject _BulletPrefab = null;
 
         private float _Timer = 0.0f;
+        private bool _IsActivated = false;
         private Transform _Transform = null;
 
         private void Awake ()
@@ -29,10 +30,13 @@ namespace Assets.Code.Classes.Enemies
 
         private void Update ()
         {
-            CalculateTimer ();
+            if (_IsActivated)
+            {
+                CalculateTimer ();
 
-            if (CanFire ())
-                Shoot ();
+                if (CanFire ())
+                    Shoot ();
+            }
         }
 
         private void CalculateTimer ()
@@ -61,10 +65,24 @@ namespace Assets.Code.Classes.Enemies
                 var bulletObj = Instantiate (_BulletPrefab, _Transform.position, _Transform.rotation);
 
                 currentAngle += angleStep;
+                bulletObj.transform.position = new Vector3 (_Transform.position.x, 0.0f, _Transform.position.z);
                 bulletObj.transform.rotation = Quaternion.Euler (90f, currentAngle, 0f);
 
                 var bullet = bulletObj.GetComponent<Bullet> ();
                 bullet.Constructor (_Damage, _BulletSpeed, _LifeTime);
+            }
+        }
+
+        private void OnTriggerEnter (Collider other)
+        {
+            if (other.name == "Initialise")
+            {
+                _IsActivated = true;
+            }
+
+            if (other.name == "Deactivate")
+            {
+                _IsActivated = false;
             }
         }
     }

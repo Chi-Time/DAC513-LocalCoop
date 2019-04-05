@@ -6,47 +6,33 @@ namespace Assets.Code.Classes.Enemies
     [RequireComponent (typeof (Rigidbody), typeof (Collider))]
     class ScoutEnemy : MonoBehaviour
     {
-        [SerializeField] private int _Health = 100;
-        [SerializeField] private int _Value = 10;
-        [SerializeField] private int _Damage = 2;
+        [SerializeField] private float _Speed = 10.0f;
+
+        private Transform _Target = null;
+        private Rigidbody _RigidBody = null;
 
         private void Awake ()
         {
             GetComponent<Collider> ().isTrigger = true;
         }
 
-        private void OnEnable ()
+        private void Start ()
         {
-            LevelSignals.OnEntityHit += OnEntityHit;
-        }
+            var targets = GameObject.FindObjectsOfType<PlayerController> ();
 
-        private void OnEntityHit (int damage, GameObject entity)
-        {
-            if (entity == this.gameObject)
-            {
-                _Health -= damage;
-                if (_Health <= 0)
-                    Kill ();
-            }
-        }
-
-        private void Kill ()
-        {
-            Destroy (this.gameObject);
-            LevelSignals.IncreaseScore (_Value);
-        }
-
-        private void OnDisable ()
-        {
-            LevelSignals.OnEntityHit -= OnEntityHit;
+            _Target = targets[Random.Range (0, targets.Length)].transform;
         }
 
         private void OnTriggerEnter (Collider other)
         {
-            if (other.CompareTag ("Player"))
+            if (other.name == "Initialise")
             {
-                LevelSignals.HitEntity (_Damage, other.gameObject);
-                Kill ();
+                iTween.MoveTo (gameObject, iTween.Hash ("path", iTweenPath.GetPath ("Movement"), "axis", "y", "orienttopath", true, "speed", _Speed, "easetype", iTween.EaseType.easeInOutSine, "islocal", false));
+            }
+
+            if (other.name == "Deactivate")
+            {
+                iTween.Stop (this.gameObject);
             }
         }
     }
